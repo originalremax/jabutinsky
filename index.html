@@ -2,9 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Apartment Building Details</title>
+  <title>ז'בוטינסקי 71 גבעתיים</title>
   <style>
     /* Add CSS styles for better appearance */
+	
+body {
+ direction: rtl;
+      
+      button {
+		cursor: pointer;
+	}
+}
     .building {
       display: flex;
       flex-direction: column; /* Stacking floors vertically */
@@ -17,6 +25,7 @@
       margin: 10px;
       display: flex;
       flex-direction: column;
+      align-items: center;
     }
 
   .apartments {
@@ -27,7 +36,6 @@
       border: 1px solid #000;
       padding: 5px;
       margin: 5px;
-      cursor: pointer;
     }
 
     /* Modal styles */
@@ -56,16 +64,15 @@
   </style>
 </head>
 <body>
-  <h1>Apartment Building Details</h1>
+  <h1>ז'בוטינסקי 71 גבעתיים</h1>
 
   <div class="building">
   </div>
 
   <script>
     const apartments = [
-      { floor: 1, number: 101, price: 150000, size: '1000/93', pricePerMeter: 1612, imagingURL: 'https://drive.google.com/file/d/1RdoQF4eFLJGcIDUKm1sssokDX69lI131/view?usp=drive_link', techPlanURL: 'https://drive.google.com/file/d/1RdoQF4eFLJGcIDUKm1sssokDX69lI131/view?usp=drive_link', appartmentPlanURL: 'https://drive.google.com/file/d/1RdoQF4eFLJGcIDUKm1sssokDX69lI131/view?usp=drive_link' },
-      { floor: 1, number: 102, price: 180000, size: '1200/111', pricePerMeter: 1622, imagingURL: '', techPlanURL: '', appartmentPlanURL: 'https://drive.google.com/file/d/1ShqwAA34s4vtB8pXXUK-mukAjVLaMlVr/view?usp=drive_link' },
-      { floor: 2, number: 201, price: 200000, size: '1100/102', pricePerMeter: 1818, imagingURL: '', techPlanURL: '', appartmentPlanURL: '' }
+     { "apartmentNumber": "1", "floor": "1", "numRooms": "4", "directions": "צפ'-מז'-מע'", "size": "84.67", "balconySize": "11.04", "pricePerMeter": "42,998", "price": "₪ 3,877,945", "imagingURL": "https://drive.google.com/file/d/1C7dbTF0WNdKbz5j1irnvHvG-B0CHgdN3/view?usp=drive_link", "techPlanURL": "https://docs.google.com/document/d/1EZ_9OPxCUpBK-OfAaYmXiOw_ssFX8xkm/edit?usp=drive_link&ouid=115171439904724542495&rtpof=true&sd=true", "apartmentPlanURL": "https://drive.google.com/file/d/1HUUyQ9eXOjOMkoO6aFEg6X6gZ3rCVUTa/view?usp=drive_link" },
+      
       // Add more apartments to the list as needed
     ];
 
@@ -86,9 +93,9 @@ const buildingDiv = document.querySelector('.building');
 	floorWrapper.setAttribute("id", `floor-${apartment.floor}`);
 	 floorWrapper.classList.add('floor');
       floorWrapper.innerHTML = `
-	<h2>Floor ${apartment.floor}</h2>
-	<div class='apartments'></div> 
-	<button onclick="window.location.href='${floors[apartment.floor]}';">תכנית דירה</button>
+	<h2>קומה ${apartment.floor}</h2>
+	<div class='apartments'></div>
+	<a href='${floors[apartment.floor]}' target="_blank"><button>תכנית קומה</button></a>
 	`;
       buildingDiv.appendChild(floorWrapper);
 floorDiv = document.querySelector(`#floor-${apartment.floor} .apartments`);
@@ -97,23 +104,22 @@ floorDiv = document.querySelector(`#floor-${apartment.floor} .apartments`);
       apartmentDiv.classList.add('apartment');
 
       const apartmentInfo = `
-        <h3>דירה ${apartment.number}</h3>
-        <p>מחיר: $${apartment.price}</p>
-        <p>גודל: ${apartment.size} sq ft/m²</p>
-        <p>Price per Meter: $${apartment.pricePerMeter}</p>
+        <h3>דירה ${apartment.apartmentNumber}</h3>
+	<p>מספר חדרים ${apartment.numRooms}</p>
+	<p>גודל במ"ר ${apartment.size}</p>
+	<p>גודל מרפסת ${apartment.balconySize}</p>
+	<p>כיווני אוויר ${apartment.directions}</p>
+	<p>מחיר למ"ר ${apartment.pricePerMeter}</p>        
+	<p>מחיר ${apartment.price}</p>
+
 	<div>
-		<button onclick="window.location.href='${apartment.appartmentPlanURL}';">תכנית דירה</button>
-		<button onclick="window.location.href='${apartment.techPlanURL}';">מפרט טכני</button>
-		<button onclick="window.location.href='${apartment.imagingURL}';">הדמיה</button>
+ 		<a href='${apartment.apartmentPlanURL}' target="_blank"><button>תכנית דירה</button></a>
+		<a href='${apartment.techPlanURL}' target="_blank"><button>מפרט טכני</button></a>
+		<a href='${apartment.imagingURL}' target="_blank"><button>הדמיה</button></a>
 	</div>
       `;
 
       apartmentDiv.innerHTML = apartmentInfo;
-
-      apartmentDiv.addEventListener('click', () => {
-        window.open(apartment.pdfURL, '_blank');
-      });
-
       floorDiv.appendChild(apartmentDiv);
     });
 
