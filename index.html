@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Apartment Building Details</title>
+  <style>
+    /* Add CSS styles for better appearance */
+    .building {
+      display: flex;
+      flex-direction: column; /* Stacking floors vertically */
+      align-items: center; /* Center the building */
+    }
+
+    .floor {
+      border: 1px solid #000;
+      padding: 10px;
+      margin: 10px;
+      display: flex;
+      flex-direction: column;
+    }
+
+  .apartments {
+      display: flex;
+    }
+
+    .apartment {
+      border: 1px solid #000;
+      padding: 5px;
+      margin: 5px;
+      cursor: pointer;
+    }
+
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #f9f9f9;
+      padding: 20px;
+      border: 1px solid #000;
+    }
+
+    .modal h2 {
+      margin-top: 0;
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Apartment Building Details</h1>
+
+  <div class="building">
+  </div>
+
+  <script>
+    const apartments = [
+      { floor: 1, number: 101, price: 150000, size: '1000/93', pricePerMeter: 1612, imagingURL: 'https://drive.google.com/file/d/1RdoQF4eFLJGcIDUKm1sssokDX69lI131/view?usp=drive_link', techPlanURL: 'https://drive.google.com/file/d/1RdoQF4eFLJGcIDUKm1sssokDX69lI131/view?usp=drive_link', appartmentPlanURL: 'https://drive.google.com/file/d/1RdoQF4eFLJGcIDUKm1sssokDX69lI131/view?usp=drive_link' },
+      { floor: 1, number: 102, price: 180000, size: '1200/111', pricePerMeter: 1622, imagingURL: '', techPlanURL: '', appartmentPlanURL: 'https://drive.google.com/file/d/1ShqwAA34s4vtB8pXXUK-mukAjVLaMlVr/view?usp=drive_link' },
+      { floor: 2, number: 201, price: 200000, size: '1100/102', pricePerMeter: 1818, imagingURL: '', techPlanURL: '', appartmentPlanURL: '' }
+      // Add more apartments to the list as needed
+    ];
+
+	const floors = {
+		1: 'https://drive.google.com/file/d/1RdoQF4eFLJGcIDUKm1sssokDX69lI131/view?usp=drive_link',
+		2: 'https://drive.google.com/file/d/1RdoQF4eFLJGcIDUKm1sssokDX69lI131/view?usp=drive_link',
+	};
+
+apartments.sort((a,b) => a.floor < b.floor ? 1 : -1);
+
+const buildingDiv = document.querySelector('.building');
+
+    apartments.forEach(apartment => {
+      let floorDiv = document.querySelector(`#floor-${apartment.floor} .apartments`);
+
+      if (!floorDiv) {
+	floorWrapper = document.createElement('div');
+	floorWrapper.setAttribute("id", `floor-${apartment.floor}`);
+	 floorWrapper.classList.add('floor');
+      floorWrapper.innerHTML = `
+	<h2>Floor ${apartment.floor}</h2>
+	<div class='apartments'></div> 
+	<button onclick="window.location.href='${floors[apartment.floor]}';">תכנית דירה</button>
+	`;
+      buildingDiv.appendChild(floorWrapper);
+floorDiv = document.querySelector(`#floor-${apartment.floor} .apartments`);
+	}
+      const apartmentDiv = document.createElement('div');
+      apartmentDiv.classList.add('apartment');
+
+      const apartmentInfo = `
+        <h3>Apartment ${apartment.number}</h3>
+        <p>Price: $${apartment.price}</p>
+        <p>Size: ${apartment.size} sq ft/m²</p>
+        <p>Price per Meter: $${apartment.pricePerMeter}</p>
+	<div>
+		<button onclick="window.location.href='${apartment.appartmentPlanURL}';">תכנית דירה</button>
+		<button onclick="window.location.href='${apartment.techPlanURL}';">מפרט טכני</button>
+		<button onclick="window.location.href='${apartment.imagingURL}';">הדמיה</button>
+	</div>
+      `;
+
+      apartmentDiv.innerHTML = apartmentInfo;
+
+      apartmentDiv.addEventListener('click', () => {
+        window.open(apartment.pdfURL, '_blank');
+      });
+
+      floorDiv.appendChild(apartmentDiv);
+    });
+
+  </script>
+</body>
+</html>
